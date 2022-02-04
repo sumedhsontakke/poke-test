@@ -5,17 +5,46 @@ import {
   } from "react-router-dom";
 
 describe('DetailsPage', () => {
+  const localStorageMock = (() => {
+    let store = {
+      url: "www.google.com/test/tes1/"
+    };
+  
+    return {
+      getItem(key) {
+        return store[key] || null;
+      },
+      setItem(key, value) {
+        store[key] = value.toString();
+      },
+      removeItem(key) {
+        delete store[key];
+      },
+      clear() {
+        store = {};
+      }
+    };
+  })();
+  
+  Object.defineProperty(window, 'sessionStorage', {
+    value: localStorageMock
+  });
+
   test('renders without error', () => {
     const obj = {
-        author: "Ofelia Hilpert",
-        description: "Duchess said after a minute or two, looking for eggs, as it is.' 'I quite agree with you,' said the King exclaimed, turning to the other, and making faces at him as he spoke. 'A cat may look at all.",
-        genre: "Cupiditate",
-        image: "http://placeimg.com/480/640/any",
-        isbn: "9786546755833",
-        published: "1981-03-14",
-        publisher: "Et Et",
-        title: "And with that she."
-    };
+      abilities: {
+        ability: {
+          name: "overgrow",
+          url: "https://pokeapi.co/api/v2/ability/65/"
+        }
+      },
+      height: 10,
+      weight: 130,
+      name: "ivysaur",
+      sprites:{
+        front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"
+      }
+    }
     render(
       <Router>
         <DetailsPage {...obj}/>
